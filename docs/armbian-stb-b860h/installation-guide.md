@@ -6,7 +6,7 @@
 
 ## link file
 
-[Download tar]([https://duckduckgo.com](https://drive.google.com/drive/folders/1uyD5fPBxR7_VSwl4v7qxVa4UN1C50l3A?usp=sharing))
+[Download tar](https://drive.google.com/drive/folders/1uyD5fPBxR7_VSwl4v7qxVa4UN1C50l3A?usp=sharing)
 
 # reset bootloader stb b860h
 
@@ -436,3 +436,4 @@ reboot
 
 
 **selamat anda telah mengembalikan bootloader b860h**
+
