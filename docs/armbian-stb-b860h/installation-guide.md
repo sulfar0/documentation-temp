@@ -213,7 +213,39 @@ note: password root = 1234
 - sambungkan internet, bisa menggunakan LAN atapun Wifi
 note: untuk wifi harus menggunakan dongle wifi untuk armbian
 
+```
+armbian-config
+```
+
+- pilih network
+
+- pilih wifi
+
+- pilih jaringan yang dimiliki atau diketahui
+
+- setelah itu quit
+
 ## step 2
+
+- setelah mengaktifkan jaringan, ganti jam 
+
+- pilih personalization
+
+- time configuration
+  
+- pilih Asia
+  
+- lalu Jakarta
+
+## step 3
+
+- setelah waktu sudah disesuaikan, sekarang mirrorlist
+
+- mirrorlist dari estonia ke china
+
+- pilih edu.tsinghua.china
+
+## step 4
 
 - kita akan mengupdate source untuk package dari armbian debian buster
 
@@ -235,7 +267,7 @@ deb http://archive.debian.org/debian buster-backports main contrib non-free
 
 - kemudian klik s, dan enter
 
-## step 3
+## step 5
 
 - setelah itu ketik
 
@@ -249,7 +281,7 @@ sudo apt update && apt upgrade
 reboot
 ```
 
-## step 4
+## step 6
 
 - setelah login kembali install gui yang diinginkan dibawah
 
@@ -280,7 +312,7 @@ sudo apt install task-gnome-desktop
 
 - setelah menjalankan salah satu gui diatas, ketik Y untuk mengkonfirmasi
 
-## step 5
+## step 7
 
 - setelah selesai install, lakukan update dan upgrade kembali
 
@@ -389,5 +421,6 @@ note: jika gagal ulangi dari step 1
 - sudah bisa langsung install android os
 
 note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
+
 
 **selamat anda telah mengembalikan bootloader b860h**
