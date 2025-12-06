@@ -4,6 +4,10 @@
 3. Adapter microSD
 4. USB male to male
 
+## link file
+
+[Download tar]([https://duckduckgo.com](https://drive.google.com/drive/folders/1uyD5fPBxR7_VSwl4v7qxVa4UN1C50l3A?usp=sharing))
+
 # reset bootloader stb b860h
 
 download folder reset-bootloader-b860h
@@ -429,5 +433,6 @@ reboot
 - jika berhasil akan langsung masuk ke dalam tampilan yang dipilih sebelumnya
 
 ---
+
 
 **selamat anda telah mengembalikan bootloader b860h**
