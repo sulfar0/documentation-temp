@@ -4,6 +4,100 @@
 3. Adapter microSD
 4. USB male to male
 
+# reset bootloader stb b860h
+
+download folder reset-bootloader-b860h
+
+## step 1
+
+- buka aplikasi BootcardMaker
+
+- choose disk (sd card)
+
+- centang bagian To partition and format
+
+- choose your bin files: u-boot.bin
+
+- klik tombol make
+
+- lalu klik tombol start
+
+- setelah selesai format sdcard
+
+- pindah semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
+
+## step 2
+
+- buka aplikasi Amlogic USB Burning Tool v2.2.0
+
+- lalu pastikan usb male to male sudah tercolok pada laptop dan adaptor set top box sudah tercolok pada stop kontak sebelum kita sambungkan ke set top box
+
+- sdcard masukkan ke dalam set top box
+
+- sambungkan usb male to male friend dan adaptor set top box
+
+note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
+
+- lalu pastikan hasil pada aplikasi Amlogic USB Burning Tool v2.2.0 hasilnya success conected
+
+## step 3
+
+- klik import image pada pojok kiri atas
+
+![alt text](image-2.png)
+
+- pilih image Pure-Khadas-VIM1.img pada folder reset-bootloader-b860h
+
+![alt text](image-3.png)
+
+- setelah selesai import, hilangkan ceklis pada Erase flash sebelah kanan aplikasi
+
+![alt text](image-4.png)
+
+- setelah itu klik tombol start
+
+- jika sudah sampai error 1% dan tidak jalan lagi, klik tombol stop
+
+![alt text](image-5.png)
+
+- lepaskan kabel male to male, dan adaptor power
+
+## step 4
+
+- sambungkan usb male to male friend dan adaptor set top box
+
+note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
+
+-  setelah itu klik import image pada pojok kiri atas
+
+![alt text](image-2.png)
+
+- pilih image Pure-Khadas-VIM1.img pada folder reset-bootloader-b860h
+
+![alt text](image-3.png)
+
+- setelah selesai import, hilangkan ceklis pada Erase flash dan Erase Bootloader sebelah kanan aplikasi
+
+![alt text](image-6.png)
+
+- setelah itu klik tombol start
+
+- tunggu sampai finish seperti dibawah
+
+![alt text](image-7.png)
+
+note: jika gagal ulangi dari step 1
+
+- setelah finish, klik tombol stop
+
+- sambungkan ulang usb male to male, dan adaptor power set top boxnya 
+
+- sudah bisa langsung install android os
+
+note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
+
+---
+
 # installation base os
 
 download folder installation-androidtv
@@ -11,6 +105,8 @@ download folder installation-androidtv
 ## step 1
 
 - masukkan sdcard ke laptop dengan adapter yang terunlock
+
+<img width="1900" height="963" alt="Screenshot 2025-12-06 103222" src="https://github.com/user-attachments/assets/c264b254-af85-4b6e-b242-07578774d629" />
 
 ![alt text](adapter-sdcard.jpg)
 
@@ -330,97 +426,5 @@ reboot
 
 ---
 
-# reset bootloader stb b860h
-
-download folder reset-bootloader-b860h
-
-## step 1
-
-- buka aplikasi BootcardMaker
-
-- choose disk (sd card)
-
-- centang bagian To partition and format
-
-- choose your bin files: u-boot.bin
-
-- klik tombol make
-
-- lalu klik tombol start
-
-- setelah selesai format sdcard
-
-- pindah semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
-
-## step 2
-
-- buka aplikasi Amlogic USB Burning Tool v2.2.0
-
-- lalu pastikan usb male to male sudah tercolok pada laptop dan adaptor set top box sudah tercolok pada stop kontak sebelum kita sambungkan ke set top box
-
-- sdcard masukkan ke dalam set top box
-
-- sambungkan usb male to male friend dan adaptor set top box
-
-note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
-
-- lalu pastikan hasil pada aplikasi Amlogic USB Burning Tool v2.2.0 hasilnya success conected
-
-## step 3
-
-- klik import image pada pojok kiri atas
-
-![alt text](image-2.png)
-
-- pilih image Pure-Khadas-VIM1.img pada folder reset-bootloader-b860h
-
-![alt text](image-3.png)
-
-- setelah selesai import, hilangkan ceklis pada Erase flash sebelah kanan aplikasi
-
-![alt text](image-4.png)
-
-- setelah itu klik tombol start
-
-- jika sudah sampai error 1% dan tidak jalan lagi, klik tombol stop
-
-![alt text](image-5.png)
-
-- lepaskan kabel male to male, dan adaptor power
-
-## step 4
-
-- sambungkan usb male to male friend dan adaptor set top box
-
-note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
-
--  setelah itu klik import image pada pojok kiri atas
-
-![alt text](image-2.png)
-
-- pilih image Pure-Khadas-VIM1.img pada folder reset-bootloader-b860h
-
-![alt text](image-3.png)
-
-- setelah selesai import, hilangkan ceklis pada Erase flash dan Erase Bootloader sebelah kanan aplikasi
-
-![alt text](image-6.png)
-
-- setelah itu klik tombol start
-
-- tunggu sampai finish seperti dibawah
-
-![alt text](image-7.png)
-
-note: jika gagal ulangi dari step 1
-
-- setelah finish, klik tombol stop
-
-- sambungkan ulang usb male to male, dan adaptor power set top boxnya 
-
-- sudah bisa langsung install android os
-
-note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
-
-
 **selamat anda telah mengembalikan bootloader b860h**
+
