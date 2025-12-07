@@ -14,6 +14,17 @@ download folder reset-bootloader-b860h
 
 ## step 1
 
+- masukkan sdcard ke dalam adapter sdcard
+
+![alt text](asset/microsd%20to%20adapter%20sdcard.jpg)
+
+- lalu masukkan adapter sdcard ke dalam laptop
+> jika tidak ada slot memorycard gunakan card reader
+
+- buka folder installation-androidtv
+
+- lalu buka folder BootcardMaker
+
 - buka aplikasi BootcardMaker
 
 - choose disk (sd card)
@@ -436,4 +447,5 @@ reboot
 
 
 **selamat anda telah mengembalikan bootloader b860h**
+
 
