@@ -48,9 +48,11 @@ download folder reset-bootloader-b860h
 
 - copy semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
 
+- setelah itu lepas sdcard dari laptop/pc 
+
 ## step 2
 
-- buka aplikasi Amlogic USB Burning Tool v2.2.0
+- buka aplikasi USB Burning Tool v2.2.0
 
 - lalu pastikan usb male to male sudah tercolok pada laptop dan adaptor set top box sudah tercolok pada stop kontak sebelum kita sambungkan ke set top box
 
@@ -454,6 +456,7 @@ reboot
 
 
 **selamat anda telah mengembalikan bootloader b860h**
+
 
 
 
