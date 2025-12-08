@@ -58,11 +58,13 @@ download folder reset-bootloader-b860h
 
 - sdcard masukkan ke dalam set top box
 
-- sambungkan usb male to male friend dan adaptor set top box
+- sambungkan usb male to male friend dan adaptor set top box pada port usb 2
 
+![alt text](asset/connect-stb-male-to-male.jpg)
 note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
 
-- lalu pastikan hasil pada aplikasi Amlogic USB Burning Tool v2.2.0 hasilnya success conected
+- lalu pastikan hasil pada aplikasi USB Burning Tool v2.2.0 hasilnya success conected
+> biasanya perlu menunggu 1 hingga 2 menit, jika lebih dari itu maka coba ulang kembali
 
 ## step 3
 
@@ -84,7 +86,7 @@ note: menyambungkan usb male to male friend dan adaptor set top box disambungkan
 
 ![alt text](asset/image-5.png)
 
-- lepaskan kabel male to male, dan adaptor power
+- lepaskan kabel male to male, dan adaptor power dari set top box
 
 ## step 4
 
@@ -114,11 +116,11 @@ note: jika gagal ulangi dari step 1
 
 - setelah finish, klik tombol stop
 
-- sambungkan ulang usb male to male, dan adaptor power set top boxnya 
-
-- sudah bisa langsung install android os
+- sambungkan ulang usb male to male, dan adaptor power dari set top boxnya
 
 note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
+
+- setelah menyambungkan ulang, kini sudah bisa langsung install android os untuk stb b860h
 
 ---
 
@@ -128,60 +130,7 @@ download folder installation-androidtv
 
 ## step 1
 
-- masukkan sdcard ke laptop dengan adapter yang terunlock
-
-![alt text](asset/microsd%20to%20adapter%20sdcard.jpg)
-
-![alt text](asset/adapter-sdcard.jpg)
-
-- buka aplikasi BootcardMaker
-
-- choose disk (sd card)
-
-- centang bagian To partition and format
-
-- choose your bin files: u-boot.bin
-
-- klik tombol make
-
-![alt text](asset/image.png)
-
-- lalu klik tombol start
-
-- setelah selesai format sdcard
-
-- pindah semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
-
-![alt text](asset/image-1.png)
-
-## step 2
-
-- siapkan set top box, usb male to male, sdcard yang sudah disiapkan pada step 1 hingga step 2
-
-- install Amlogic USB Burning Tool v2.2.0
-
-- setelah di install
-
-- buka aplikasi Amlogic USB Burning Tool v2.2.0
-
-- lalu pastikan usb male to male sudah tercolok pada laptop dan adaptor set top box sudah tercolok pada stop kontak sebelum kita sambungkan ke set top box
-
-![alt text](asset/male-to-male.jpg)
-
-- sdcard masukkan ke dalam set top box
-
-- sambungkan usb male to male friend dan adaptor set top box
-
-![alt text](asset/connect-stb-male-to-male.jpg)
-note: menyambungkan usb male to male friend dan adaptor set top box disambungkan atau dicolok secara bersamaan, dan ditekan tombol power set top box secara bersamaan
-
-- lalu pastikan hasil pada aplikasi Amlogic USB Burning Tool v2.2.0 hasilnya success conected
-
-![alt text](asset/image-8.png)
-
-## step 3
-
-- setelah sukses tersambung, buka folder FWAero_B860HV1&2_Android 6.0.0
+- setelah sukses mengembalikan bootloader b860h, buka folder FWAero_B860HV1&2_Android 6.0.0
 
 - kemudian klik 2 kali pada file aeroflasher.bat
 
@@ -199,13 +148,21 @@ note: menyambungkan usb male to male friend dan adaptor set top box disambungkan
 
 - kemudian tunggu hingga selesai
 
-- setelah selesai, ketik huruf e untuk keluar dari terminal
+- setelah selesai, ketik huruf e lalu enter untuk keluar dari terminal
 
-## step 4
+## step 2
 
-- setelah selesai, hubungkan set top box ke monitor atau tv
+- setelah selesai, lepaskan male to male dari set top box
 
-- tunggu hingga selesai booting setelah selesai maka sudah berhasil menginstall android pada set top box
+- hubungkan set top box ke monitor atau tv
+
+- tunggu hingga selesai booting setelah selesai
+
+- hubungkan mouse ke set top box
+
+- sambungkan wifi pada android os tv
+
+- maka sudah berhasil menginstall android pada set top box
 
 - keluarkan microsd dari set top box
 
@@ -217,25 +174,74 @@ download folder step 2
 
 ## step 1
 
-- buat bootable microsd armbian menggunakan rufus dan pilih file Armbian_5.91_Aml-s905_Debian_buster_default5.1.0.img
+- masukkan sdcard ke dalam adapter sdcard
 
-- setelah selesai membuat bootable pada microsd
+- masukkan adapter sdcard ke dalam laptop/pc
+
+- buka aplikasi rufus
+
+- klik tombol pilih/select
+  
+- kemudian pilih file Armbian_5.91_Aml-s905_Debian_buster_default5.1.0.img pada folder Armbian_5.91_Aml-s905_Debian_buster_default5.1.0.img
+
+- klik tombol start
+
+- setelah itu munucul peringatan
+
+- klik ok
+
+- kemudian tunggu
+
+- setelah selesai klik tombol tutup
 
 ## step 2
 
-- buka microsd
+- buka microsd pada file manager
 
 - kemudian buka folder extlinux
 
-- buka file extlinux.conf, lalu pada line # FDT /dbt/meson-gxl-s905x-khadas-vim.dtb
+- buka file extlinux.conf menggunakan text editor
+> disarankan menggunakan visual studio code
+- lalu pada line # FDT /dbt/meson-gxl-s905x-khadas-vim.dtb
+
+```extlinux.conf
+LABEL Armbian
+  LINUX /zImage
+  INITRD /uInitrd
+  FDTDIR /dtb
+#  FDT /dtb/meson-gxl-s905x-khadas-vim.dtb
+  APPEND root=LABEL=ROOTFS rootflags=data=writeback rw console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.fix=yes fsck.repair=yes net.ifnames=0 
+```
 
 - hapus # dan ganti menjadi FDT /dbt/meson-gxl-s905x-p212.dtb
 
+```extlinux.conf
+LABEL Armbian
+  LINUX /zImage
+  INITRD /uInitrd
+  FDTDIR /dtb
+  FDT /dbt/meson-gxl-s905x-p212.dtb
+  APPEND root=LABEL=ROOTFS rootflags=data=writeback rw console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.fix=yes fsck.repair=yes net.ifnames=0 
+```
+
+- lalu save
+
 ## step 3
 
-- lalu edit file uENV.ini
+- lalu edit file uENV.ini menggunakan text editor
+> disarankan menggunakan visual studio code
+
+```uENV.ini
+dtb_name=/dtb/meson-gxl-s905x-khadas-vim.dtb
+bootargs=root=LABEL=ROOTFS rootflags=data=writeback rw console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.fix=yes fsck.repair=yes net.ifnames=0
+```
 
 - lalu ganti menjadi dtb_name=/dtb/meson-gxl-s905x-p212.dtb
+
+```uENV.ini
+dtb_name=/dbt/meson-gxl-s905x-p212.dtb
+bootargs=root=LABEL=ROOTFS rootflags=data=writeback rw console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.fix=yes fsck.repair=yes net.ifnames=0
+```
 
 - kemudian file uboot_HG680P.bin dicopy dan dipaste ke dalam microsd
 
@@ -456,6 +462,7 @@ reboot
 
 
 **selamat anda telah mengembalikan bootloader b860h**
+
 
 
 
