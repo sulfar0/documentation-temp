@@ -46,7 +46,7 @@ download folder reset-bootloader-b860h
 
 - jangan lupa untuk menutup aplikasi bootcardmaker
 
-- pindah semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
+- pindahkan semua file yang ada pada folder Unlock_USB ke sdcard yang sudah diformat
 
 ## step 2
 
@@ -454,6 +454,7 @@ reboot
 
 
 **selamat anda telah mengembalikan bootloader b860h**
+
 
 
 
