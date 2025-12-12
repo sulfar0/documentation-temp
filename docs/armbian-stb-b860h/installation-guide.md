@@ -505,3 +505,17 @@ ssh -v -Y [user]@[ip server]
 ```
 firefox -no-remote
 ```
+
+# open browser with terminal
+
+## install kiosk
+
+```
+sudo apt install firefox-esr fluxbox
+```
+
+## opening web
+> example browsing facebook using terminal
+```
+firefox-esr --kiosk "https://facebook.com"
+```
