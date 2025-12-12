@@ -388,9 +388,9 @@ sudo nano /etc/apt/source.list
 - tambahkan di line berikutnya seperti dibawah
 
 ```
-deb http://archive.debian.org/debian buster main contrib non-free
-deb http://archive.debian.org/debian-security buster/updates main contrib non-free
-deb http://archive.debian.org/debian buster-backports main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian buster main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian buster-backports main contrib non-free
 ```
 
 - lalu save menggunakan ctrl + x
@@ -461,12 +461,47 @@ reboot
 ---
 
 
-**selamat anda telah mengembalikan bootloader b860h**
+# ssh x11 forwarding
 
+## configure sshd config
+> on target pc
+```
+sudo nvim /etc/ssh/sshd_config
+```
 
+```
+X11forwarding yes
+AllowTcpForwarding yes
+X11UseLocalhost yes
+X11DisplayOffset yes
+```
 
+## add file .Xauthority
 
+```
+touch ~/.Xauthority
+```
 
+```
+xauth generate :0 . trusted
+```
 
+```
+xauth add ${HOST}:0 . $(xxd -l 16 -p /dev/urandom)
+```
 
+```
+xauth list
+```
 
+## connect ssh
+> on local
+```
+ssh -v -Y [user]@[ip server]
+```
+
+## then run the application
+> example for firefox
+```
+firefox -no-remote
+```
