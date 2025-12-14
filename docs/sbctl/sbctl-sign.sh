@@ -1,3 +1,4 @@
+#!/bin/bash
 path=$(pwd)
 linux=($(ls /boot/efi/linux/))
 kernel=($(ls /boot/kernel | grep vmlinuz))
