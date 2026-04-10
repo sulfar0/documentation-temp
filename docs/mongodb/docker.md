@@ -35,6 +35,14 @@ sudo sysctl kernel.unprivileged_userns_clone=1
 ```
 
 ```
+sudo chown root:docker /var/run/docker.sock
+```
+
+```
+sudo chmod 660 /var/run/docker.sock
+```
+
+```
 sudo usermod -aG docker 'user'
 ```
 
