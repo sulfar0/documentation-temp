@@ -26,6 +26,18 @@ nvim /etc/subgid
 'user' 100000:65536
 ```
 
+```
+sudo sysctl kernel.unprivileged_userns_clone=1
+```
+
+```
+sudo usermod -aG docker 'user'
+```
+
+```
+newgrp docker
+```
+
 3. Configure registries
 
 ```
