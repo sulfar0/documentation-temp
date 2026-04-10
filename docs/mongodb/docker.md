@@ -52,7 +52,7 @@ services:
 
 ## documentation
 
-1. pull and run
+1. pull and run in terminal
 
 ```
 docker run -d \
@@ -64,13 +64,20 @@ docker run -d \
   mongo:latest
 ```
 
-2. using docker compose
+2. access trough terminal
+
+```
+docker exec my-mongodb mongosh -u admin -p password_anda
+```
+
+3. using docker compose
 
 ```
 services:
   mongo:
     image: mongo:latest
-    port: 27017:27017
+    ports: 
+      - 27017:27017
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
