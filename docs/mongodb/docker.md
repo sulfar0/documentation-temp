@@ -1,4 +1,4 @@
-# mongodb using podman
+# mongodb using docker and podman
 
 ## research
 
