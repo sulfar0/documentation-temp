@@ -194,7 +194,7 @@ docker run -d \
 2. access trough terminal
 
 ```
-docker exec my-mongodb mongosh -u admin -p password_anda
+docker exec -it my-mongodb mongosh -u admin -p password_anda
 ```
 
 3. using docker compose
