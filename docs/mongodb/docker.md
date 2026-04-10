@@ -27,6 +27,10 @@ nvim /etc/subgid
 ```
 
 ```
+sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 sulfar
+```
+
+```
 sudo sysctl kernel.unprivileged_userns_clone=1
 ```
 
