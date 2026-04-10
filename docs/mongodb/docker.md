@@ -14,7 +14,7 @@ or
 docker pull mongo:latest
 ```
 
-2. Environment Variabel
+2. Environment variabel
 
 | Environment                | Variabel       |
 | -------------------------- | -------------- |
@@ -23,7 +23,44 @@ docker pull mongo:latest
 
 to set a root username in mongodb using environment MONGO_INITDB_ROOT_USERNAME, and set a password using environment MONGO_INITDB_ROOT_PASSWORD.
 
-3. docker compose
+3. Store data
+
+```
+mkdir /my/own/datadir
+```
+
+```
+docker run --name my-mongodb -v /my/own/datadir:/data/db -d mongo
+```
+
+| Field             | Description                     |
+| ----------------- | ------------------------------- |
+| docker run        | to start and pull               |
+| --name my-mongodb | container name                  |
+| -v                | to set path                     |
+| /my/own/datadir   | directory data in local         |
+| /data/db          | directory data in container     |
+| -d                | container running in background |
+
+> note: the path you can custom anything you name it.
+
+4. Connecting container
+
+```
+docker run -it --network some-network --rm mongo mongosh --host my-mongodb test
+```
+
+| Field                  | Description                      |
+| ---------------------- | -------------------------------- |
+| docker run             | to start and pull                |
+| --network some-network | container network name           |
+| -rm                    | to remove client when exit       |
+| mongo                  | using image mongo as a client    |
+| mongosh                | run shell                        |
+| --host my-mongodb      | bridging to container my-mongodb |
+| test                   | use database test                |
+
+5. docker compose
 
 ```
 sudo pacman -S docker-compose
