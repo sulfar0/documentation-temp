@@ -50,6 +50,31 @@ sudo usermod -aG docker 'user'
 newgrp docker
 ```
 
+```
+sudo pacman -S fuse-overlayfs
+```
+
+```
+mkdir -p ~/.config/containers
+```
+
+```
+nvim ~/.config/containers/storage.conf
+```
+
+```
+[storage]
+driver = "overlay"
+mount_program = "/usr/bin/fuse-overlayfs"
+
+[storage.options.overlay]
+mountopt = "nodev,metacopy=on"
+```
+
+```
+podman system reset
+```
+
 3. Configure registries
 
 ```
