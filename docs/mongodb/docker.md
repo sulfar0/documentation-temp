@@ -23,7 +23,32 @@ docker pull mongo:latest
 
 to set a root username in mongodb using environment MONGO_INITDB_ROOT_USERNAME, and set a password using environment MONGO_INITDB_ROOT_PASSWORD.
 
-3. 
+3. docker compose
+
+```
+sudo pacman -S docker-compose
+```
+
+```docker-compose.yml
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH_ENABLED: true
+      ME_CONFIG_BASICAUTH_USERNAME: mongoexpressuser
+      ME_CONFIG_BASICAUTH_PASSWORD: mongoexpresspass
+```
 
 ## documentation
 
@@ -39,7 +64,29 @@ docker run -d \
   mongo:latest
 ```
 
-2.
+2. using docker compose
+
+```
+services:
+  mongo:
+    image: mongo:latest
+    port: 27017:27017
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH_ENABLED: true
+      ME_CONFIG_BASICAUTH_USERNAME: mongoexpressuser
+      ME_CONFIG_BASICAUTH_PASSWORD: mongoexpresspass
+```
 
 ## reference
 
