@@ -1,5 +1,19 @@
 # mongodb using docker and podman
 
+## cis docker benchmark
+
+```
+mount /path/partisi/docker /var/lib/docker
+```
+
+```
+sudo usermod -aG docker 'user'
+```
+
+```
+
+```
+
 ## research
 
 1. Install Podman, Docker, and Docker Compose
