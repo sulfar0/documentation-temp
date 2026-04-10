@@ -1,8 +1,43 @@
-# mongodb using docker
+# mongodb using podman
 
 ## research
 
-1. Pull image
+1. Install Podman, Docker, and Docker Compose
+
+```
+pacman -S podman docker docker-compose
+```
+
+2. rootless
+
+```
+nvim /etc/subuid
+```
+
+```/etc/subuid
+'user' 100000:65536
+```
+
+```
+nvim /etc/subgid
+```
+
+```/etc/subgid
+'user' 100000:65536
+```
+
+3. Configure registries
+
+```
+nvim /etc/containers/registries.conf
+```
+
+> in very bottom add
+```
+unqualified-search-registries = ["docker.io", "quay.io"]
+```
+
+4. Pull image
 
 ```
 docker pull mongo:8.3.0-rc5-windowsservercore-ltsc2025
@@ -17,6 +52,8 @@ docker pull mongo:latest
 ```
 docker pull mongodb/mongodb-community-server:latest
 ```
+
+> if using podman then change docker with podman
 
 2. Environment variabel
 
@@ -141,3 +178,4 @@ services:
 1. [Docker](https://hub.docker.com/_/mongo)
 2. [Baeldung](https://www.baeldung.com/linux/mongodb-as-docker-container)
 3. [Mongodb](https://www.mongodb.com/docs/manual/administration/install-community/?operating-system=docker&search-docker=with-search-docker)
+4. [Wiki](https://wiki.archlinux.org/title/Linux_Containers#Enable_support_to_run_unprivileged_containers_(optional))
