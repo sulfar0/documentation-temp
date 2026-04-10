@@ -14,6 +14,10 @@ or
 docker pull mongo:latest
 ```
 
+```
+docker pull mongodb/mongodb-community-server:latest
+```
+
 2. Environment variabel
 
 | Environment                | Variabel       |
@@ -30,7 +34,7 @@ mkdir /my/own/datadir
 ```
 
 ```
-docker run --name my-mongodb -v /my/own/datadir:/data/db -d mongo
+docker run --name my-mongodb -v /my/own/datadir:/data/db -d mongodb/mongodb-community-server:latest
 ```
 
 | Field             | Description                     |
@@ -47,7 +51,7 @@ docker run --name my-mongodb -v /my/own/datadir:/data/db -d mongo
 4. Connecting container
 
 ```
-docker run -it --network some-network --rm mongo mongosh --host my-mongodb test
+docker run -it --network some-network --rm mongodb/mongodb-community-server:latest mongosh --host my-mongodb test
 ```
 
 | Field                  | Description                      |
@@ -69,7 +73,7 @@ sudo pacman -S docker-compose
 ```docker-compose.yml
 services:
   mongo:
-    image: mongo:latest
+    image: mongodb/mongodb-community-server:latest
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -98,7 +102,7 @@ docker run -d \
   -e MONGO_INITDB_ROOT_USERNAME=admin \
   -e MONGO_INITDB_ROOT_PASSWORD=password_anda \
   -v mongodb_data:/data/db \
-  mongo:latest
+  mongodb/mongodb-community-server:latest
 ```
 
 2. access trough terminal
@@ -112,7 +116,7 @@ docker exec my-mongodb mongosh -u admin -p password_anda
 ```
 services:
   mongo:
-    image: mongo:latest
+    image: mongodb/mongodb-community-server:latest
     ports: 
       - 27017:27017
     restart: always
@@ -136,3 +140,4 @@ services:
 
 1. [Docker](https://hub.docker.com/_/mongo)
 2. [Baeldung](https://www.baeldung.com/linux/mongodb-as-docker-container)
+3. [Mongodb](https://www.mongodb.com/docs/manual/administration/install-community/?operating-system=docker&search-docker=with-search-docker)
