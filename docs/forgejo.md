@@ -42,3 +42,7 @@ podman unshare chown -R 999:999 ./postgres
 ```
 podman compose up -d
 ```
+
+```
+podman exec -it <nama_kontainer_forgejo> forgejo admin user create --username admin_saya --password password_kuat --email admin@example.com --admin
+```
