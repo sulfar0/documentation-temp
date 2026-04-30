@@ -7,7 +7,6 @@ networks:
 
 services:
   server:
-    image: codeberg.org/forgejo/forgejo:14
     image: codeberg.org/forgejo/forgejo:14-rootless
     container_name: forgejo
     user: 1000:1000
@@ -23,12 +22,10 @@ services:
     networks:
       - forgejo
     volumes:
-      - ./forgejo:/data
       - ./forgejo:/var/lib/gitea
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "3000:3000"
-      - "222:22"
       - "222:2222"
     depends_on:
       - db
