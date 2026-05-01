@@ -76,5 +76,5 @@ pass = 1511
 ## rootless image
 
 ```
-podman run -d --restart always --name forgejo -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="blacksaw.srv:10002" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" -p 3000:3000 -p 222:2222/tcp -v /home/sulfar/.config/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15-rootless
+podman run -d --restart always --name forgejo -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="blacksaw.srv:10002" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" -p 3000:3000 -v /home/sulfar/.config/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15-rootless
 ```
