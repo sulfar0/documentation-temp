@@ -23,6 +23,10 @@ sudo sysctl --system
 ```
 
 ```
+podman run -d --restart always --name forgejo -e USER_UID="1000" -e USER_GID="1000" -e USER_GID="1000" -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="blaksaw.srv:10002" -e FORGEJO__database__NAME="forgejo" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" -v /home/sulfar/forgejo:/data codeberg.org/forgejo/forgejo:latest
+```
+
+```
 podman exec -it <nama_kontainer> createdb -U <username> forgejo
 ```
 
