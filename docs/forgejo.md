@@ -52,3 +52,7 @@ podman compose up -d
 ```
 podman exec -it <nama_kontainer_forgejo> forgejo admin user create --username admin_saya --password password_kuat --email admin@example.com --admin
 ```
+
+database = gitrock
+user = testing
+pass = 1511
