@@ -8,6 +8,10 @@ sudo pacman -S overlayfs podman podman-compose
 systemctl --user enable --now podman
 ```
 
+```
+podman exec -it <nama_kontainer> createdb -U <username> forgejo
+```
+
 ```compose.yaml
 services:
   server:
