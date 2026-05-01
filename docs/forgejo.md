@@ -8,6 +8,8 @@ sudo pacman -S overlayfs podman podman-compose
 systemctl --user enable --now podman
 ```
 
+## creating database for forgejo
+
 ```
 podman exec -it <nama_kontainer> createdb -U <username> forgejo
 ```
