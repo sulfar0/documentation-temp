@@ -11,6 +11,18 @@ systemctl --user enable --now podman
 ## creating database for forgejo
 
 ```
+sudo nvim /etc/sysctl.conf
+```
+
+```/etc/sysctl.conf
+user.max_user_namespaces=15000
+```
+
+```
+sudo sysctl --system
+```
+
+```
 podman exec -it <nama_kontainer> createdb -U <username> forgejo
 ```
 
