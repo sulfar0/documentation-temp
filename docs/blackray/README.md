@@ -98,7 +98,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
 
 ### game
 ```
-lvcreate -L 2.5G proc -n game
+lvcreate -L 2G proc -n game
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/game
@@ -163,19 +163,6 @@ mkdir -p /mnt/var/cache /mnt/var/cache/pacman
 ```
 mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vpac /mnt/var/cache/pacman
 ```
-### ring
-```
-lvcreate -L 512M proc -n ring
-```
-```
-cryptsetup luksFormat --sector-size=4096 /dev/proc/ring
-```
-```
-cryptsetup luksOpen /dev/proc/ring lvm_keys
-```
-```
-mkfs.ext4 -b 4096 /dev/mapper/lvm_keys
-```
 ### home
 ```
 lvcreate -L 5G proc -n home
@@ -189,19 +176,19 @@ mkdir /mnt/home
 ```
 mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/home /mnt/home
 ```
-### docs
+
+### swap
 ```
-lvcreate -L 13.1G proc -n docs
-```
-```
-mkfs.ext4 -b 4096 /dev/proc/docs
+lvcreate -L 4G proc -n swap
 ```
 ```
-mkdir -p /mnt/srv/http
+mkswap /dev/proc/swap
 ```
 ```
-mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/docs /mnt/srv/http
+swapon /dev/proc/swap
 ```
+
+
 
 # 2.installation
 
