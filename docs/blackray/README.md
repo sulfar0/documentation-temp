@@ -224,7 +224,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/docs /mnt/srv/http
 
 ## intel server
 ```
-pacstrap /mnt linux-hardened linux-firmware mkinitcpio intel-ucode tang clevis mkinitcpio-nfs-utils luksmeta libpwquality cracklib git base neovim lvm2 btrfs-progs openssh polkit ethtool iptables-nft firewalld apparmor rsync sudo debugedit fakeroot pkgconf bison gcc pcre flex wget make gcc curl irqbalance tuned which sof-firmware --noconfirm
+pacstrap /mnt linux-hardened linux-hardened-headers linux-firmware-realtek linux-firmware-intel linux-firmware-other mkinitcpio intel-ucode tang clevis mkinitcpio-nfs-utils luksmeta libpwquality cracklib git base neovim lvm2 btrfs-progs openssh polkit ethtool iptables-nft firewalld apparmor rsync sudo debugedit fakeroot pkgconf bison gcc pcre flex wget make gcc curl irqbalance tuned which sof-firmware --noconfirm
 ```
 ## amd server
 ```
