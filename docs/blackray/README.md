@@ -33,22 +33,22 @@ cryptsetup luksOpen /dev/nvme0n1p3 proc
 cryptsetup luksOpen /dev/nvme0n1p4 data
 ```
 
-## logical volume
+## logical volume proc
 
 ### disk layout
-| partition | list | group  | name | size | mount                 | format |
-| --------- | ---- | ------ | ---- | ---- | --------------------- | ------ |
-| 2         | 1    | proc   | root | 5G   | /mnt                  | ext4   |
-| 2         | 2    | proc   | vars | 3G   | /mnt/var              | ext4   |
-| 2         | 3    | proc   | libs | 2G   | /mnt/var/usr/         | ext4   |
-| 2         | 4    | proc   | game | 1G   | /mnt/var/games/       | ext4   |
-| 2         | 5    | proc   | vlog | 2G   | /mnt/var/log/         | ext4   |
-| 2         | 6    | proc   | vaud | 1G   | /mnt/var/log/audit    | ext4   |
-| 2         | 7    | proc   | vtmp | 512M | /mnt/var/tmp/         | ext4   |
-| 2         | 8    | proc   | vpac | 2G   | /mnt/var/cache/pacman | ext4   |
-| 2         | 9    | proc   | ring | 512M |                       | luks   |
-| 2         | 10   | proc   | home | 5G   | /mnt/home             | ext4   |
-| 2         | 11   | proc   | docs | 100% | /mnt/srv/http         | ext4   |
+| partition | list | group  | name | size  | mount                 | format |
+| --------- | ---- | ------ | ---- | ----- | --------------------- | ------ |
+| 2         | 1    | proc   | root | 10G   | /mnt                  | ext4   |
+| 2         | 2    | proc   | libs | 3.5G  | /mnt/var/usr/         | ext4   |
+| 2         | 3    | proc   | game | 2.5G  | /mnt/var/games/       | ext4   |
+| 2         | 4    | proc   | vars | 8G    | /mnt/var              | ext4   |
+| 2         | 5    | proc   | vlog | 5G    | /mnt/var/log/         | ext4   |
+| 2         | 6    | proc   | vaud | 1G    | /mnt/var/log/audit    | ext4   |
+| 2         | 7    | proc   | vtmp | 2.5G  | /mnt/var/tmp/         | ext4   |
+| 2         | 8    | proc   | vpac | 5G    | /mnt/var/cache/pacman | ext4   |
+| 2         | 9    | proc   | ring | 512M  |                       | luks   |
+| 2         | 10   | proc   | home | 5G    | /mnt/home             | ext4   |
+| 2         | 11   | proc   | docs | 13.1G | /mnt/srv/http         | ext4   |
 
 ```
 pvcreate /dev/mapper/proc
@@ -64,7 +64,7 @@ vgcreate proc /dev/mapper/data
 ```
 ### root
 ```
-lvcreate -L 5G proc -n root
+lvcreate -L 10G proc -n root
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/root
@@ -83,23 +83,10 @@ mkdir /mnt/boot
 ```
 mount -o uid=0,gid=0,fmask=0077,dmask=0077 /dev/nvme0n1p1 /mnt/boot
 ```
-### vars
-```
-lvcreate -L 3G proc -n vars
-```
-```
-mkfs.ext4 -b 4096 /dev/proc/vars
-```
-```
-mkdir /mnt/var
-```
-```
-mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
-```
 
 ### libs
 ```
-lvcreate -L 2G proc -n libs
+lvcreate -L 3.5G proc -n libs
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/libs
@@ -113,7 +100,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/libs /mnt/var/usr
 
 ### game
 ```
-lvcreate -L 1G proc -n game
+lvcreate -L 2.5G proc -n game
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/game
@@ -125,9 +112,23 @@ mkdir /mnt/var/games
 mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/game /mnt/var/games
 ```
 
+### vars
+```
+lvcreate -L 8G proc -n vars
+```
+```
+mkfs.ext4 -b 4096 /dev/proc/vars
+```
+```
+mkdir /mnt/var
+```
+```
+mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
+```
+
 ### vlog
 ```
-lvcreate -L 2G proc -n vlog
+lvcreate -L 5G proc -n vlog
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/vlog
@@ -154,7 +155,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vaud /mnt/var/log/audit
 ```
 ### vtmp
 ```
-lvcreate -L 512M proc -n vtmp
+lvcreate -L 2.5G proc -n vtmp
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/vtmp
@@ -167,7 +168,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vtmp /mnt/var/tmp
 ```
 ### vpac
 ```
-lvcreate -L 2G proc -n vpac
+lvcreate -L 5G proc -n vpac
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/vpac
@@ -206,7 +207,7 @@ mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/home /mnt/home
 ```
 ### docs
 ```
-lvcreate -l100%FREE proc -n docs
+lvcreate -L 13.1G proc -n docs
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/docs
