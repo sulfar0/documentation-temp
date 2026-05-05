@@ -84,6 +84,20 @@ mkdir /mnt/boot
 mount -o uid=0,gid=0,fmask=0077,dmask=0077 /dev/nvme0n1p1 /mnt/boot
 ```
 
+### vars
+```
+lvcreate -L 8G proc -n vars
+```
+```
+mkfs.ext4 -b 4096 /dev/proc/vars
+```
+```
+mkdir /mnt/var
+```
+```
+mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
+```
+
 ### libs
 ```
 lvcreate -L 3.5G proc -n libs
@@ -110,20 +124,6 @@ mkdir /mnt/var/games
 ```
 ```
 mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/game /mnt/var/games
-```
-
-### vars
-```
-lvcreate -L 8G proc -n vars
-```
-```
-mkfs.ext4 -b 4096 /dev/proc/vars
-```
-```
-mkdir /mnt/var
-```
-```
-mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
 ```
 
 ### vlog
