@@ -323,6 +323,9 @@ http:x:33:33::/srv/http:/usr/bin/bash
 passwd http
 ```
 ```
+chage -E -1 http 
+```
+```
 su http
 ```
 ```
