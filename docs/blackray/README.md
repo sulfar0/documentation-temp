@@ -39,16 +39,15 @@ cryptsetup luksOpen /dev/nvme0n1p4 data
 | partition | list | group  | name | size  | mount                 | format |
 | --------- | ---- | ------ | ---- | ----- | --------------------- | ------ |
 | 2         | 1    | proc   | root | 10G   | /mnt                  | ext4   |
-| 2         | 2    | proc   | libs | 3.5G  | /mnt/var/usr/         | ext4   |
-| 2         | 3    | proc   | game | 2.5G  | /mnt/var/games/       | ext4   |
-| 2         | 4    | proc   | vars | 8G    | /mnt/var              | ext4   |
-| 2         | 5    | proc   | vlog | 5G    | /mnt/var/log/         | ext4   |
-| 2         | 6    | proc   | vaud | 1G    | /mnt/var/log/audit    | ext4   |
-| 2         | 7    | proc   | vtmp | 2.5G  | /mnt/var/tmp/         | ext4   |
-| 2         | 8    | proc   | vpac | 5G    | /mnt/var/cache/pacman | ext4   |
-| 2         | 9    | proc   | ring | 512M  |                       | luks   |
-| 2         | 10   | proc   | home | 5G    | /mnt/home             | ext4   |
-| 2         | 11   | proc   | docs | 13.1G | /mnt/srv/http         | ext4   |
+| 2         | 2    | proc   | game | 2G    | /mnt/var/games/       | ext4   |
+| 2         | 3    | proc   | vars | 10G   | /mnt/var              | ext4   |
+| 2         | 4    | proc   | vlog | 5G    | /mnt/var/log/         | ext4   |
+| 2         | 5    | proc   | vaud | 1G    | /mnt/var/log/audit    | ext4   |
+| 2         | 6    | proc   | vtmp | 2.5G  | /mnt/var/tmp/         | ext4   |
+| 2         | 7    | proc   | vpac | 5G    | /mnt/var/cache/pacman | ext4   |
+| 2         | 8    | proc   | ring | 512M  |                       | luks   |
+| 2         | 9    | proc   | home | 5G    | /mnt/home             | ext4   |
+| 2         | 10   | proc   | swap | 4G    | swapon                | swap   |
 
 ```
 pvcreate /dev/mapper/proc
