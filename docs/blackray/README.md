@@ -305,14 +305,9 @@ rm /etc/skel/.bashrc
 ```
 rm /etc/skel/.bash_logout
 ```
+> tambahkan http pada sudoers
 ```
-echo 'http ALL=(ALL:ALL) ALL' >> /etc/sudoers
-```
-```
-cat /etc/sudoers
-```
-```
-useradd -d /srv/http http
+nvim /etc/sudoers
 ```
 ```
 chown -R http:http /srv/http
