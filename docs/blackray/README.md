@@ -332,32 +332,6 @@ su http
 sudo su
 ```
 
-### firewelld
-
-```
-nvim /usr/lib/firewalld/zones/block.xml
-```
-```
-nvim /usr/lib/firewalld/zones/external.xml
-```
-```
-nvim /usr/lib/firewalld/zones/home.xml
-```
-```
-nvim /usr/lib/firewalld/zones/internal.xml 
-```
- 
-delete semua service 
-
-```
-nvim /usr/lib/firewalld/zones/public.xml 
-```
-
-sisakan
-```
-<service name="ssh"/>
-```
-
 ## os release
 
 ```
