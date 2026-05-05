@@ -39,15 +39,14 @@ cryptsetup luksOpen /dev/nvme0n1p4 data
 | partition | list | group  | name | size  | mount                 | format |
 | --------- | ---- | ------ | ---- | ----- | --------------------- | ------ |
 | 2         | 1    | proc   | root | 10G   | /mnt                  | ext4   |
-| 2         | 2    | proc   | game | 2G    | /mnt/var/games/       | ext4   |
-| 2         | 3    | proc   | vars | 10G   | /mnt/var              | ext4   |
+| 2         | 2    | proc   | vars | 10G   | /mnt/var              | ext4   |
+| 2         | 3    | proc   | game | 2G    | /mnt/var/games/       | ext4   |
 | 2         | 4    | proc   | vlog | 5G    | /mnt/var/log/         | ext4   |
 | 2         | 5    | proc   | vaud | 1G    | /mnt/var/log/audit    | ext4   |
 | 2         | 6    | proc   | vtmp | 2.5G  | /mnt/var/tmp/         | ext4   |
 | 2         | 7    | proc   | vpac | 5G    | /mnt/var/cache/pacman | ext4   |
-| 2         | 8    | proc   | ring | 512M  |                       | luks   |
-| 2         | 9    | proc   | home | 5G    | /mnt/home             | ext4   |
-| 2         | 10   | proc   | swap | 4G    | swapon                | swap   |
+| 2         | 8    | proc   | home | 5G    | /mnt/home             | ext4   |
+| 2         | 9    | proc   | swap | 4G    | swapon                | swap   |
 
 ```
 pvcreate /dev/mapper/proc
@@ -85,7 +84,7 @@ mount -o uid=0,gid=0,fmask=0077,dmask=0077 /dev/nvme0n1p1 /mnt/boot
 
 ### vars
 ```
-lvcreate -L 8G proc -n vars
+lvcreate -L 10G proc -n vars
 ```
 ```
 mkfs.ext4 -b 4096 /dev/proc/vars
@@ -95,20 +94,6 @@ mkdir /mnt/var
 ```
 ```
 mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/vars /mnt/var
-```
-
-### libs
-```
-lvcreate -L 3.5G proc -n libs
-```
-```
-mkfs.ext4 -b 4096 /dev/proc/libs
-```
-```
-mkdir /mnt/var/usr
-```
-```
-mount -o rw,nodev,noexec,nosuid,relatime /dev/proc/libs /mnt/var/usr
 ```
 
 ### game
@@ -334,111 +319,32 @@ rm /etc/skel/.bashrc
 rm /etc/skel/.bash_logout
 ```
 ```
-echo 'loki ALL=(ALL:ALL) ALL' >> /etc/sudoers
+echo 'http ALL=(ALL:ALL) ALL' >> /etc/sudoers
 ```
 ```
 cat /etc/sudoers
 ```
 ```
-useradd -d /var/usr loki
+useradd -d /srv/http http
 ```
 ```
-chown -R loki:loki /var/usr
+chown -R http:http /srv/http
 ```
-```
-passwd loki
-```
-```
-su loki
-```
-```
-cd ~
-```
-```
-mkdir /var/usr/.ssh
-```
-```
-nvim /var/usr/.ssh/authorized_keys
-```
-input public keys loki
-```
-chmod 700 .ssh/
-```
-```
-chmod 600 .ssh/authorized_keys
-```
-```
-sudo chattr +i .ssh/authorized_keys
-```
-```
-sudo su
-```
-```
-exit
-```
-```
-exit
-```
-```
-useradd -d /var/games -u 50 -g games games
-```
-```
-cat /etc/passwd | grep games
-```
-output
-```
-games:x:50:50::/var/games:/usr/bin/nologin
-```
-```
-passwd -l games
-```
+> lakukan perubahan /etc/passwd baru lakukan passwd
 ```
 nvim /etc/passwd
 ```
-pastikan line `games` dibawah `nobody`
-
-### hook clevis
 ```
-su loki
+http:x:33:33::/srv/http:/usr/bin/bash
 ```
 ```
-git clone https://aur.archlinux.org/mkinitcpio-clevis-hook.git 
+passwd http
 ```
 ```
-cd mkinitcpio-clevis-hook
+su http
 ```
 ```
-makepkg -si
-```
-```
-clevis luks bind -d /dev/nvme0n1p3 tang '{"url":"http://10.10.1.10:51379"}'
-```
-```
-clevis luks bind -d /dev/nvme0n1p3 tang '{"url":"http://10.10.1.11:51379"}'
-```
-```
-clevis luks bind -d /dev/nvme0n1p4 tang '{"url":"http://10.10.1.10:51379"}'
-```
-```
-clevis luks bind -d /dev/nvme0n1p4 tang '{"url":"http://10.10.1.11:51379"}'
-```
-```
-systemctl enable clevis-luks-askpass.path
-```
-### tang server
-```
-systemctl enable tangd.socket
-```
-```
-mkdir /etc/systemd/system/tangd.socket.d
-```
-```
-nvim /etc/systemd/system/tangd.socket.d/override.conf
-```
-```
-[Socket]
-ListenStream=
-ListenStream=51379 
+sudo su
 ```
 
 ### firewelld
@@ -462,17 +368,7 @@ delete semua service
 nvim /usr/lib/firewalld/zones/public.xml 
 ```
 
-delete semua service selain ssh,dan tambahkan
-```
-  <port protocol="tcp" port="51379"/>
-```
-```
-  <port protocol="tcp" port="9090"/>
-```
-```
-  <port protocol="tcp" port="9100"/>
-```
-dibawah
+sisakan
 ```
 <service name="ssh"/>
 ```
@@ -499,29 +395,6 @@ PRIVACY_POLICY_URL="https://blackbird.lektor.co.id/privacy-policy/"
 LOGO=blackbird-logo
 ```
 
-## pamd
-
-
-To avoid the temptation of creating weak passwords, PAM must be properly configured to implement a password policy, as well as securely control the login process. Here we are going to implement this password policy:
-
-- Minimum length: 14 characters.
-- Required characters: Uppercase, lowercase, digits, and special characters.
-- Different characters between passwords: 3 characters.
-- Retries: 3 times.
-- Retries before locking: 6 times.
-- Time between each retry: 3 seconds.
-- Time before automatic account lockout: 10 minutes.
-- Storing method: SHA-512 in /etc/shadow.
-
-To achieve it, open /etc/pam.d/passwd in a text editor, comment all lines --considering you have not changed this file yet-- and add the next lines.
-```
-nvim /etc/pam.d/passwd
-```
-```
-password required pam_cracklib.so retry=3 minlen=14 difok=3 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1
-password required pam_unix.so     use_authtok sha512 shadow
-```
-
 ## package manager
 
 ```
@@ -543,39 +416,7 @@ VerbosePkgLists
 systemctl enable apparmor.service
 ```
 
-## secure shell hardening
-
-```
-mv /etc/ssh/sshd_config /etc/backup
-```
-```
-nvim /etc/ssh/sshd_config
-```
-```
-# Include drop-in configurations
-Include /etc/ssh/sshd_config.d/*.conf
-
-Protocol 2
-
-Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512,curve25519-sha256@libssh.org
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
-
-PermitRootLogin no
-PermitEmptyPasswords no
-LoginGraceTime 20
-MaxAuthTries 3
-MaxSessions 10
-ClientAliveCountMax 3
-Banner no
-
-AllowAgentForwarding no
-AllowTcpForwarding no
-X11Forwarding no
-
-# override default of no subsystems
-#Subsystem	sftp	/usr/lib/ssh/sftp-server
-```
+## sshd
 ```
 systemctl enable ssh
 ```
@@ -587,114 +428,9 @@ systemctl enable ssh
 nvim /etc/sysctl.d/30-secs.conf
 ```
 
+```/etc/sysctl.d/30-secs.conf
+kernel.unprivileged_userns_clone=1
 ```
-## disable ipv6
-net.ipv6.conf.all.disable_ipv6 = 1
-
-# prevent the automatic loading of line disciplines
-# https://lore.kernel.org/patchwork/patch/1034150
-dev.tty.ldisc_autoload=0
-
-
-# additional protections for fifos, hardlinks, regular files, and symlinks
-# https://patchwork.kernel.org/patch/10244781
-# slightly tightened up from the systemd default values of "1" for each
-fs.protected_fifos=2
-fs.protected_regular=2
-
-
-## yama ptrac
-## https://theprivacyguide1.github.io/linux_hardening_guide
-kernel.yama.ptrace_scope=2
-
-
-# prevents processes from creating new io_uring instances
-# https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html
-kernel.io_uring_disabled=2
-
-
-# disable unprivileged user namespaces
-# https://lwn.net/Articles/673597
-# (these two values are redundant, but not all kernels support the first one)
-user.max_user_namespaces=0
-
-
-# reverse path filtering to prevent some ip spoofing attacks
-# (default in some distributions)
-net.ipv4.conf.all.rp_filter=1
-net.ipv4.conf.default.rp_filter=1
-
-
-# reverse path filtering to prevent some ip spoofing attacks
-# (default in some distributions)
-net.ipv4.conf.all.rp_filter=1
-net.ipv4.conf.default.rp_filter=1
-
-
-# disable icmp redirects and RFC1620 shared media redirects
-net.ipv4.conf.all.accept_redirects=0
-net.ipv4.conf.all.secure_redirects=0
-net.ipv4.conf.all.send_redirects=0
-net.ipv4.conf.all.shared_media=0
-net.ipv4.conf.default.accept_redirects=0
-net.ipv4.conf.default.secure_redirects=0
-net.ipv4.conf.default.send_redirects=0
-net.ipv4.conf.default.shared_media=0
-net.ipv6.conf.all.accept_redirects=0
-net.ipv6.conf.default.accept_redirects=0
-
-
-# disable tcp timestamps to avoid leaking some system information
-# https://www.whonix.org/wiki/Disable_TCP_and_ICMP_Timestamps
-net.ipv4.tcp_timestamps=0
-
-# disable usb
-kernel.deny_new_usb=1
-
-#disable coredum
-kernel.core_pattern=|/bin/false
-```
-
-## module hardening
-
-### network
-```
-nvim /etc/modprobe.d/disable-network-protocols.conf
-```
-```
-install dccp /bin/true
-install sctp /bin/true
-install rds /bin/true
-install tipc /bin/true
-install n-hdlc /bin/true
-install ax25 /bin/true
-install netrom /bin/true
-install x25 /bin/true
-install rose /bin/true
-install decnet /bin/true
-install econet /bin/true
-install af_802154 /bin/true
-install ipx /bin/true
-install appletalk /bin/true
-install psnap /bin/true
-install p8023 /bin/true
-install p8022 /bin/true
-```
-
-### filesystem
-```
-nvim /etc/modprobe.d/disable-filesystem-protocols.conf
-```
-```
-install cramfs /bin/true
-install freevxfs /bin/true
-install jffs2 /bin/true
-install hfs /bin/true
-install hfsplus /bin/true
-install squashfs /bin/true
-install udf /bin/true
-```
-
 
 ## loging config
 ```
@@ -748,95 +484,6 @@ tambahkan pada bagian paling bawah
 ## Config Log
 Defaults logfile="/var/log/sudo.log"
 ```
-
-## autoupdate
-```
-nvim /etc/systemd/system/update.service
-```
-```
-[Unit]
-Description=Run system update
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/pacman --sync --refresh --sysupgrade --noconfirm
-```
-```
-nvim /etc/systemd/system/update.timer
-```
-```
-[Unit]
-Description=Run the system update daily
-
-[Timer]
-OnCalendar=hourly
-Persistent=true
-Unit=update.service
-
-[Install]
-WantedBy=timers.target
-```
-```
-systemctl enable update.timer 
-```
-## prometheus 
-```
-systemctl enable prometheus.service
-```
-```
-systemctl enable prometheus-node-exporter.service
-```
-
-### configuration
-```
-cd /etc/prometheus
-```
-```
-cp prometheus.yml prometheus.yml.bck
-```
-
-```
-nvim /etc/prometheus/prometheus.yml
-```
-tambahkan ke paling bawah
-```
-scrape_configs:
-   - job_name: 'prometheus'
-     static_configs:
-       - targets: ['localhost:9090']
-         labels:
-           app: "promotheus"
-   - job_name: 'node'
-     static_configs:
-       - targets: ['localhost:9100']
-         labels:
-           app: "exporter"
-```
-### irqbalance
-```
-systemctl enable irqbalance
-```
-```
-mkdir -p /usr/lib/systemd/system/irqbalance.service.d/
-```
-```
-cat > /usr/lib/systemd/system/irqbalance.service.d/10-no-private-users.conf <<EOF
-[Service]
-PrivateUsers=false
-EOF
-```
-### tuned
-```
-systemctl enable tuned
-```
-```
-tuned-adm profile througput-performance
-```
-```
-tuned-adm active
-```
-output: througput-performance
-
 #### nginx
 ```
 systemctl enable nginx
@@ -1022,17 +669,6 @@ printf "title recovery\nefi /efi/rescue/recovery.efi" > /boot/loader/entries/rec
 ```
 ```
 cat /boot/loader/entries/recovery.conf
-```
-### wake on lan
-
-```
-nvim /etc/udev/rules.d/81-wol.rules
-```
-```
-ACTION=="add", SUBSYSTEM=="net", NAME=="en*", RUN+="/usr/bin/ethtool -s $name wol g"
-```
-```
-ethtool interface | grep Wake-on
 ```
 
 ### instrusion detection
