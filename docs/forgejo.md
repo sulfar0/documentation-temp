@@ -23,7 +23,7 @@ sudo sysctl --system
 ## install database forgejo using podman
 
 ```
-podman run -d --restart always --name postgres -e POSTGRES_USER="testing" -e POSTGRES_PASSWORD="1511" -e POSTGRES_DB="gitrock" -p 5432:5432 -v /srv/http/postgres postgres:latest
+podman run -d --restart always --network gitrock-net --name postgres -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="1511" -p 5432:5432 -v /home/sulfar/postgres postgres:latest
 ```
 
 ## database for forgejo
@@ -37,7 +37,7 @@ podman run -d --restart always --name postgres -e POSTGRES_USER="testing" -e POS
 ## image forgejo root
 
 ```
-podman run -d --restart always --name forgejo -e USER_UID="33" -e USER_GID="33" -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="postgres:5432" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" -p 3000:3000 -p 2222:22 -v /srv/http/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15
+podman run -d --restart always --network gitrock-net --name forgejo -e USER_UID="1000" -e USER_GID="1000" -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="postgres:5432" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" -p 3000:3000 -v /home/sulfar/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15
 ```
 
 ## image forgejo rootless
