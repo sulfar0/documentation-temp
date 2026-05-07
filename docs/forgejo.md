@@ -23,7 +23,7 @@ sudo sysctl --system
 ## install database forgejo using podman
 
 ```
-podman run -d --restart always --network gitrock-net --name postgres -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="1511" -p 5432:5432 -v /home/sulfar/postgres postgres:latest
+podman run -d --restart always  --name postgres -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="1511" -p 5432:5432 -v /home/sulfar/postgres postgres:latest
 ```
 
 ## database for forgejo
