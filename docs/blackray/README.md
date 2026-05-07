@@ -195,7 +195,7 @@ swapon /dev/proc/swap
 
 ## intel server
 ```
-pacstrap /mnt linux-hardened linux-hardened-headers linux-firmware-realtek linux-firmware-intel linux-firmware-other mkinitcpio intel-ucode tang clevis mkinitcpio-nfs-utils luksmeta libpwquality cracklib git base neovim lvm2 btrfs-progs openssh polkit ethtool iptables-nft firewalld apparmor rsync sudo debugedit fakeroot pkgconf bison gcc pcre flex wget make gcc curl nginx irqbalance tuned which sof-firmware --noconfirm
+pacstrap /mnt linux-hardened linux-hardened-headers linux-firmware-realtek linux-firmware-intel linux-firmware-other mkinitcpio intel-ucode tang clevis mkinitcpio-nfs-utils luksmeta libpwquality cracklib git base neovim lvm2 btrfs-progs openssh polkit ethtool iptables-nft firewalld apparmor rsync sudo debugedit fakeroot pkgconf bison gcc pcre flex wget make gcc curl nginx irqbalance tuned which sof-firmware podman --noconfirm
 ```
 ## amd server
 ```
@@ -962,3 +962,39 @@ reboot
 ```
 passwd -l root
 ```
+
+```
+nvim /etc/subuid
+```
+> add user http
+```
+http:100000:65536
+```
+
+```
+nvim /etc/subgid
+```
+> add user http
+```
+http:100000:65536
+```
+
+## add storage 
+
+```
+mkdir -p .config/containers
+```
+
+```
+nvim .config/containers/storage.conf
+```
+
+```.config/containers/storage.conf
+[storage]
+driver = "overlay"
+
+[storage.options.overlay]
+mount_program = ""
+mount_opt = "userxattr"
+```
+
