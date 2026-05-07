@@ -58,3 +58,6 @@ drwxrwxr-x 17 100999 100999 4096 May  1 19:01  gitea
 ```
 chmod -R 775 /home/sulfar/.config/gitea
 ```
+
+
+
