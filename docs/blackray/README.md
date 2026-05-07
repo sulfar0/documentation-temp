@@ -995,6 +995,6 @@ driver = "overlay"
 
 [storage.options.overlay]
 mount_program = ""
-mount_opt = "userxattr"
+mountopt = "userxattr"
 ```
 
