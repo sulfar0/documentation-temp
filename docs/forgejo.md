@@ -37,7 +37,7 @@ podman run -d --restart always --name postgres -e POSTGRES_USER="testing" -e POS
 ## image forgejo root
 
 ```
-podman run -d --restart always --name forgejo -e USER_UID="33" -e USER_GID="33" -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="10.10.1.11:5432" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" --network pasta -p 3000:3000 -p 2222:22 -v /srv/http/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15
+podman run -d --restart always --name forgejo -e USER_UID="33" -e USER_GID="33" -e FORGEJO__database__DB_TYPE="postgres" -e FORGEJO__database__HOST="postgres:5432" -e FORGEJO__database__NAME="gitrock" -e FORGEJO__database__USER="testing" -e FORGEJO__database__PASSWD="1511" --network pasta -p 3000:3000 -p 2222:22 -v /srv/http/gitea:/var/lib/gitea:z -v /etc/localtime:/etc/localtime:ro codeberg.org/forgejo/forgejo:15
 ```
 
 ## image forgejo rootless
