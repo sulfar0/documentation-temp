@@ -1,4 +1,4 @@
-## documentation openldap server side
+# documentation openldap server side
 
 ## package
 
@@ -320,3 +320,121 @@ result: 0 Success
 # numEntries: 6
 ```
 
+# documentation openldap client side
+
+## package 
+
+```
+sudo pacman -Syu sssd openldap
+```
+
+## create folder for tls
+
+```
+sudo mkdir -p /etc/openldap/certs
+```
+
+## copy cert tls from server
+
+```
+sudo scp user@192.168.1.100:/etc/openldap/certs/cert.pem /etc/openldap/certs/server-cert.pem
+```
+
+## configure ldap
+
+```
+sudo nvim /etc/openldap/ldap.conf
+```
+
+```
+BASE    dc=lan,dc=local
+URI     ldaps://192.168.1.100
+TLS_CACERT /etc/openldap/certs/server-cert.pem
+```
+
+```
+ldapsearch -x
+```
+
+## configure sssd
+
+```
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = lan.local
+
+[domain/lan.local]
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+
+ldap_uri = ldaps://192.168.1.100
+ldap_search_base = dc=lan,dc=local
+ldap_id_use_start_tls = false
+ldap_tls_cacert = /etc/openldap/certs/server-cert.pem
+
+ldap_user_search_base = ou=users,dc=lan,dc=local
+ldap_group_search_base = ou=groups,dc=lan,dc=local
+
+cache_credentials = true
+```
+
+## change access for user
+
+```
+sudo chmod 600 /etc/sssd/sssd.conf
+```
+
+```
+sudo chown root:root /etc/sssd/sssd.conf
+```
+
+## configure nsswitch
+
+```
+sudo nvim /etc/nsswitch.conf
+```
+
+```
+passwd: files sss
+group: files sss
+```
+
+## configure pam.d
+
+```
+sudo nvim /etc/pam.d/system-auth
+```
+
+```
+#%PAM-1.0
+
+auth      sufficient pam_sss.so forward_pass
+auth      required   pam_unix.so try_first_pass nullok
+auth      required   pam_deny.so
+
+account   [default=bad success=ok user_unknown=ignore] pam_sss.so
+account   required   pam_unix.so
+account   required   pam_permit.so
+
+password  sufficient pam_sss.so use_authtok
+password  required   pam_unix.so try_first_pass shadow nullok
+password  required   pam_deny.so
+
+session   optional   pam_keyinit.so revoke
+session   required   pam_limits.so
+session   required   pam_mkhomedir.so skel=/etc/skel/ umask=0022
+session   [success=1 default=ignore] pam_sss.so
+session   required   pam_unix.so
+```
+
+```
+sudo systemctl enable --now sssd
+```
+
+## test user
+
+```
+id budi
+```
