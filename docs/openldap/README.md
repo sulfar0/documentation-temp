@@ -359,7 +359,7 @@ ldapsearch -x
 ## configure sssd
 
 ```
-sudo nano /etc/sssd/sssd.conf
+sudo nvim /etc/sssd/sssd.conf
 ```
 
 ```
