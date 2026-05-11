@@ -359,6 +359,10 @@ ldapsearch -x
 ## configure sssd
 
 ```
+sudo nano /etc/sssd/sssd.conf
+```
+
+```
 [sssd]
 config_file_version = 2
 services = nss, pam
