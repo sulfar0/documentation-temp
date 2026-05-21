@@ -12,7 +12,6 @@ systemctl --user enable --now podman
 
 ```
 podman run -d --restart always --net podman  --name postgres -e POSTGRES_DB="forgejo" -e POSTGRES_USER="forgejo" -e POSTGRES_PASSWORD="1511" -p 5433:5432 -v ~/.config/containers/postgres postgres:15-alpine
-
 ```
 
 ## image forgejo root
