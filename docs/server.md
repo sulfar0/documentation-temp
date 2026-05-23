@@ -6,11 +6,6 @@ Arch Linux:
 sudo pacman -S \
   podman \
   openssl \
-  curl \
-  wget \
-  nss \
-  libnssckbi \
-  postgresql-libs
 ```
 
 ---
