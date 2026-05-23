@@ -317,39 +317,7 @@ cp ~/.config/containers/ca/private/local.test.key \
 
 ---
 
-# 15. Configure Traefik Dynamic Config
-
-```bash
-nvim ~/.config/containers/traefik/dynamic/dynamic.yml
-```
-
-```yaml
-http:
-  middlewares:
-    security:
-      headers:
-        frameDeny: true
-        browserXssFilter: true
-        contentTypeNosniff: true
-        referrerPolicy: strict-origin
-        stsSeconds: 31536000
-        stsIncludeSubdomains: true
-        stsPreload: true
-
-tls:
-  certificates:
-    - certFile: /certs/local.test.crt
-      keyFile: /certs/local.test.key
-
-  options:
-    default:
-      minVersion: VersionTLS13
-      sniStrict: true
-```
-
----
-
-# 16. Create PostgreSQL Secret
+# 15. Create PostgreSQL Secret
 
 ```bash
 nvim ~/.config/containers/secrets/postgres.env
@@ -362,7 +330,7 @@ POSTGRES_PASSWORD=CHANGE_ME_POSTGRES_PASSWORD
 
 ---
 
-# 17. Create Temporary PostgreSQL Config
+# 16. Create Temporary PostgreSQL Config
 
 ## postgresql.conf
 
@@ -396,7 +364,7 @@ host    all             all             ::/0                    scram-sha-256
 
 ---
 
-# 18. Initialize PostgreSQL Cluster
+# 17. Initialize PostgreSQL Cluster
 
 ```bash
 podman run -d \
@@ -418,7 +386,7 @@ podman run -d \
 
 ---
 
-# 19. Verify Bootstrap
+# 18. Verify Bootstrap
 
 ```bash
 podman logs -f postgres-init
@@ -432,7 +400,7 @@ database system is ready to accept connections
 
 ---
 
-# 20. Stop Bootstrap Container
+# 19. Stop Bootstrap Container
 
 ```bash
 podman rm -f postgres-init
@@ -440,7 +408,7 @@ podman rm -f postgres-init
 
 ---
 
-# 21. Install PostgreSQL TLS Certificates
+# 20. Install PostgreSQL TLS Certificates
 
 ## Copy Certificate
 
@@ -460,7 +428,7 @@ cp ~/.config/containers/ca/private/local.test.key \
 
 ---
 
-# 22. Fix PostgreSQL Certificate Ownership
+# 21. Fix PostgreSQL Certificate Ownership
 
 ```bash
 podman unshare chown 999:999 \
@@ -476,7 +444,7 @@ podman unshare chown 999:999 \
 
 ---
 
-# 23. Fix PostgreSQL Certificate Permissions
+# 22. Fix PostgreSQL Certificate Permissions
 
 ```bash
 podman unshare chmod 600 \
@@ -485,7 +453,7 @@ podman unshare chmod 600 \
 
 ---
 
-# 24. Enable PostgreSQL SSL
+# 23. Enable PostgreSQL SSL
 
 ## Replace postgresql.conf
 
@@ -527,7 +495,7 @@ hostssl all             all             ::/0                    scram-sha-256
 
 ---
 
-# 25. Run Final PostgreSQL
+# 24. Run Final PostgreSQL
 
 ```bash
 podman run -d \
@@ -552,7 +520,7 @@ podman run -d \
 
 ---
 
-# 26. Verify PostgreSQL
+# 25. Verify PostgreSQL
 
 ```bash
 podman logs -f postgres
@@ -566,7 +534,7 @@ database system is ready to accept connections
 
 ---
 
-# 27. Verify PostgreSQL TLS
+# 26. Verify PostgreSQL TLS
 
 ```bash
 podman exec -it postgres \
@@ -726,7 +694,7 @@ TO lldap;
 \q
 ```
 
-# 28. Configure Valkey TLS
+# 27. Configure Valkey TLS
 
 ## Create Directories
 
@@ -857,7 +825,7 @@ Ready to accept connections
 
 ---
 
-# 29. Configure LLDAP TLS
+# 28. Configure LLDAP TLS
 
 ## Create Directories
 
@@ -970,7 +938,7 @@ LDAP server listening
 
 ---
 
-# 30. Configure Traefik TLS
+# 29. Configure Traefik TLS
 
 ## Create Directories
 
@@ -1112,7 +1080,7 @@ curl -k https://localhost:8999
 
 ---
 
-# 31. Configure Authelia TLS
+# 30. Configure Authelia TLS
 
 ## Create Directories
 
@@ -1340,7 +1308,7 @@ podman run -d \
 
 ---
 
-# 32. Configure Forgejo TLS
+# 31. Configure Forgejo TLS
 
 ## Create Directories
 
@@ -1444,7 +1412,7 @@ podman run -d \
 
 ---
 
-# 33. Verify Services
+# 32. Verify Services
 
 ## Verify PostgreSQL TLS
 
@@ -1498,7 +1466,7 @@ curl -k https://git.local.test:8999
 
 ---
 
-# 34. Configure Forgejo OIDC
+# 33. Configure Forgejo OIDC
 
 Open:
 
