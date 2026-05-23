@@ -626,12 +626,6 @@ chmod 644 ~/.config/containers/valkey/certs/ca.crt
 
 ## Create Secret
 
-### run this command several times
-
-```
-openssl rand -hex 64
-```
-
 ```bash
 nvim ~/.config/containers/secrets/valkey.env
 ```
@@ -760,6 +754,13 @@ chmod 644 ~/.config/containers/lldap/certs/ca.crt
 ---
 
 ## Create Secret
+
+
+### run this command 2 times
+
+```
+openssl rand -hex 64
+```
 
 ```bash
 nvim ~/.config/containers/secrets/lldap.env
@@ -998,6 +999,13 @@ openssl genrsa -out ~/.config/containers/authelia/private.pem 4096
 
 ## Create Secret
 
+
+### run this command 5 times
+
+```
+openssl rand -hex 64
+```
+
 ```bash
 nvim ~/.config/containers/secrets/authelia.env
 ```
@@ -1138,6 +1146,13 @@ cp ~/.config/containers/ca/certs/server.key \
 ---
 
 ## Create Secret
+
+
+### run this command 3 times
+
+```
+openssl rand -hex 64
+```
 
 ```bash
 nvim ~/.config/containers/secrets/forgejo.env
