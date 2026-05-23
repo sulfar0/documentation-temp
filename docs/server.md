@@ -484,7 +484,7 @@ podman unshare chown 999:999 \
 # 23. Fix PostgreSQL Certificate Permissions
 
 ```bash
-chmod 600 \
+podman unshare chmod 600 \
 ~/.config/containers/postgres/certs/server.key
 ```
 
