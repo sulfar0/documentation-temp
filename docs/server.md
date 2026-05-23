@@ -1362,6 +1362,28 @@ cp ~/.config/containers/ca/private/local.test.key \
 ~/.config/containers/forgejo/certs/server.key
 ```
 
+```
+cp ~/.config/containers/ca/private/rootCA.key \
+~/.config/containers/forgejo/certs/ca.crt
+```
+
+## Fix Permissions
+
+```bash
+podman unshare chown 999:999 \
+~/.config/containers/forgejo/certs/server.crt
+```
+
+```bash
+podman unshare chown 999:999 \
+~/.config/containers/forgejo/certs/server.key
+```
+
+```bash
+podman unshare chmod 600 \
+~/.config/containers/forgejo/certs/server.key
+```
+
 
 ---
 
