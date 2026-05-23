@@ -584,10 +584,6 @@ Expected:
 postgres=#
 ```
 
-# Session 2 — Valkey, LLDAP, Traefik TLS, Authelia, Forgejo SSL
-
----
-
 # 28. Configure Valkey TLS
 
 ## Create Directories
