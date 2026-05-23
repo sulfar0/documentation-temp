@@ -579,6 +579,153 @@ Expected:
 postgres=#
 ```
 
+```bash
+podman exec -it postgres psql -U postgres
+```
+
+---
+
+# Forgejo Database
+
+## Create User
+
+```sql
+CREATE USER forgejo
+WITH ENCRYPTED PASSWORD 'forgejo1511';
+```
+
+## Create Database
+
+```sql
+CREATE DATABASE forgejo
+OWNER forgejo;
+```
+
+## Grant Database Privileges
+
+```sql
+GRANT ALL PRIVILEGES
+ON DATABASE forgejo
+TO forgejo;
+```
+
+## Change Public Schema Ownership
+
+```sql
+\c forgejo
+```
+
+```sql
+ALTER SCHEMA public
+OWNER TO forgejo;
+```
+
+## Grant Schema Privileges
+
+```sql
+GRANT ALL
+ON SCHEMA public
+TO forgejo;
+```
+
+---
+
+# Authelia Database
+
+## Create User
+
+```sql
+CREATE USER authelia
+WITH ENCRYPTED PASSWORD 'authelia1511';
+```
+
+## Create Database
+
+```sql
+CREATE DATABASE authelia
+OWNER authelia;
+```
+
+## Grant Database Privileges
+
+```sql
+GRANT ALL PRIVILEGES
+ON DATABASE authelia
+TO authelia;
+```
+
+## Change Public Schema Ownership
+
+```sql
+\c authelia
+```
+
+```sql
+ALTER SCHEMA public
+OWNER TO authelia;
+```
+
+## Grant Schema Privileges
+
+```sql
+GRANT ALL
+ON SCHEMA public
+TO authelia;
+```
+
+---
+
+# LLDAP Database
+
+## Create User
+
+```sql
+CREATE USER lldap
+WITH ENCRYPTED PASSWORD 'lldap1511';
+```
+
+## Create Database
+
+```sql
+CREATE DATABASE lldap
+OWNER lldap;
+```
+
+## Grant Database Privileges
+
+```sql
+GRANT ALL PRIVILEGES
+ON DATABASE lldap
+TO lldap;
+```
+
+## Change Public Schema Ownership
+
+```sql
+\c lldap
+```
+
+```sql
+ALTER SCHEMA public
+OWNER TO lldap;
+```
+
+## Grant Schema Privileges
+
+```sql
+GRANT ALL
+ON SCHEMA public
+TO lldap;
+```
+
+---
+
+# Exit PostgreSQL Shell
+
+```sql
+\q
+```
+
 # 28. Configure Valkey TLS
 
 ## Create Directories
@@ -592,13 +739,13 @@ mkdir -p ~/.config/containers/valkey/{data,certs}
 ## Copy Certificates
 
 ```bash
-cp ~/.config/containers/ca/certs/server.crt \
-~/.config/containers/valkey/certs/
+cp ~/.config/containers/ca/certs/local.test.crt \
+~/.config/containers/valkey/certs/server.crt
 ```
 
 ```bash
-cp ~/.config/containers/ca/certs/server.key \
-~/.config/containers/valkey/certs/
+cp ~/.config/containers/ca/private/local.test.key \
+~/.config/containers/valkey/certs/server.key
 ```
 
 ```bash
@@ -611,15 +758,18 @@ cp ~/.config/containers/ca/root/rootCA.crt \
 ## Fix Permissions
 
 ```bash
-chmod 600 ~/.config/containers/valkey/certs/server.key
+podman unshare chown 999:999 \
+~/.config/containers/valkey/certs/server.crt
 ```
 
 ```bash
-chmod 644 ~/.config/containers/valkey/certs/server.crt
+podman unshare chown 999:999 \
+~/.config/containers/valkey/certs/server.key
 ```
 
 ```bash
-chmod 644 ~/.config/containers/valkey/certs/ca.crt
+podman unshare chmod 600 \
+~/.config/containers/valkey/certs/server.key
 ```
 
 ---
@@ -677,7 +827,6 @@ podman run -d \
   --name valkey \
   --restart unless-stopped \
   --network backend \
-  --cap-drop ALL \
   --security-opt no-new-privileges \
   --memory 512m \
   --cpus 1 \
@@ -688,7 +837,7 @@ podman run -d \
   -v ~/.config/containers/valkey/data:/data:Z \
   -v ~/.config/containers/valkey/valkey.conf:/etc/valkey/valkey.conf:ro,Z \
   -v ~/.config/containers/valkey/certs:/certs:ro,Z \
-  docker.io/valkey/valkey:8-alpine \
+  docker.io/valkey/valkey:latest \
   valkey-server /etc/valkey/valkey.conf
 ```
 
@@ -721,13 +870,13 @@ mkdir -p ~/.config/containers/lldap/{data,certs}
 ## Copy Certificates
 
 ```bash
-cp ~/.config/containers/ca/certs/server.crt \
-~/.config/containers/lldap/certs/
+cp ~/.config/containers/ca/certs/local.test.crt \
+~/.config/containers/lldap/certs/server.crt
 ```
 
 ```bash
-cp ~/.config/containers/ca/certs/server.key \
-~/.config/containers/lldap/certs/
+cp ~/.config/containers/ca/private/local.test.key \
+~/.config/containers/lldap/certs/server.key
 ```
 
 ```bash
@@ -740,15 +889,18 @@ cp ~/.config/containers/ca/root/rootCA.crt \
 ## Fix Permissions
 
 ```bash
-chmod 600 ~/.config/containers/lldap/certs/server.key
+podman unshare chown 1000:1000 \
+~/.config/containers/lldap/certs/server.crt
 ```
 
 ```bash
-chmod 644 ~/.config/containers/lldap/certs/server.crt
+podman unshare chown 1000:1000 \
+~/.config/containers/lldap/certs/server.key
 ```
 
 ```bash
-chmod 644 ~/.config/containers/lldap/certs/ca.crt
+podman unshare chmod 600 \
+~/.config/containers/lldap/certs/server.key
 ```
 
 ---
@@ -831,13 +983,13 @@ mkdir -p ~/.config/containers/traefik/{dynamic,certs}
 ## Copy Certificates
 
 ```bash
-cp ~/.config/containers/ca/certs/server.crt \
-~/.config/containers/traefik/certs/
+cp ~/.config/containers/ca/certs/local.test.crt \
+~/.config/containers/traefik/certs/server.crt
 ```
 
 ```bash
-cp ~/.config/containers/ca/certs/server.key \
-~/.config/containers/traefik/certs/
+cp ~/.config/containers/ca/private/local.test.key \
+~/.config/containers/traefik/certs/server.key
 ```
 
 ---
@@ -893,17 +1045,17 @@ http:
     authelia:
       loadBalancer:
         servers:
-          - url: "https://authelia:9091"
+          - url: "http://authelia:9091"
 
     forgejo:
       loadBalancer:
         servers:
-          - url: "https://forgejo:3000"
+          - url: "http://forgejo:3000"
 
     lldap:
       loadBalancer:
         servers:
-          - url: "https://lldap:17170"
+          - url: "http://lldap:17170"
 
 tls:
   certificates:
@@ -973,18 +1125,37 @@ mkdir -p ~/.config/containers/authelia/certs
 ## Copy Certificates
 
 ```bash
-cp ~/.config/containers/ca/certs/server.crt \
-~/.config/containers/authelia/certs/
+cp ~/.config/containers/ca/certs/local.test.crt \
+~/.config/containers/authelia/certs/server.crt
 ```
 
 ```bash
-cp ~/.config/containers/ca/certs/server.key \
-~/.config/containers/authelia/certs/
+cp ~/.config/containers/ca/private/local.test.key \
+~/.config/containers/authelia/certs/server.key
 ```
 
 ```bash
 cp ~/.config/containers/ca/root/rootCA.crt \
 ~/.config/containers/authelia/certs/ca.crt
+```
+
+---
+
+## Fix Permissions
+
+```bash
+podman unshare chown 999:999 \
+~/.config/containers/authelia/certs/server.crt
+```
+
+```bash
+podman unshare chown 999:999 \
+~/.config/containers/authelia/certs/server.key
+```
+
+```bash
+podman unshare chmod 600 \
+~/.config/containers/lldap/certs/server.key
 ```
 
 ---
@@ -1037,22 +1208,22 @@ server:
     certificate: '/certs/server.crt'
 
 log:
-  level: 'warn'
+  level: 'debug'
 
 session:
-  secret: '${AUTHELIA_SESSION_SECRET}'
+  secret: ${AUTHELIA_SESSION_SECRET}
 
   cookies:
     - domain: 'local.test'
       authelia_url: 'https://auth.local.test:8999'
+      default_redirection_url: 'https://git.local.test:8999'
 
   redis:
     host: 'valkey'
     port: 6379
+    password: valkey1511
     tls:
-      server_name: 'auth.local.test'
       skip_verify: true
-    password: '${AUTHELIA_VALKEY_PASSWORD}'
 
 storage:
   encryption_key: '${AUTHELIA_STORAGE_ENCRYPTION_KEY}'
@@ -1061,7 +1232,7 @@ storage:
     address: 'tcp://postgres:5432'
     database: 'authelia'
     username: 'authelia'
-    password: '${AUTHELIA_STORAGE_POSTGRES_PASSWORD}'
+    password: ${AUTHELIA_STORAGE_POSTGRES_PASSWORD}
 
     tls:
       server_name: 'postgres.local.test'
@@ -1071,27 +1242,74 @@ authentication_backend:
   ldap:
     implementation: 'lldap'
 
-    address: 'ldaps://lldap:6360'
+    address: 'ldaps://ldap.local.test:6360'
+
+    tls:
+      server_name: 'ldap.local.test'
+      skip_verify: true
+
+    timeout: '5s'
+
+    start_tls: false
 
     base_dn: 'dc=local,dc=test'
 
+    additional_users_dn: ou=people
+
+    users_filter: "(&(objectClass=person)({username_attribute}={input}))"
+
+    additional_groups_dn: ou=groups
+
+    groups_filter: "(member={dn})"
+
     user: 'uid=admin,ou=people,dc=local,dc=test'
 
-    password: 'CHANGE_ME'
+    password: '[password admin lldap]'
+
+    attributes:
+      username: 'uid'
+      display_name: 'displayName'
+      mail: 'mail'
+      group_name: 'cn'
+
 
 access_control:
-  default_policy: 'deny'
+  default_policy: 'one_factor'
 
 identity_providers:
   oidc:
-    hmac_secret: '${AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET}'
+    hmac_secret: ${AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET}
 
     jwks:
       - key_id: 'main'
         algorithm: 'RS256'
         use: 'sig'
         key: |
-          {{ secret "/config/private.pem" }}
+          -----BEGIN PRIVATE KEY-----
+          -- paste here (indensasi harus sama)
+          -----END PRIVATE KEY-----
+
+    clients:
+      - client_id: 'forgejo'
+
+        client_name: 'Forgejo'
+
+        client_secret: CHANGE_ME 
+
+        public: false
+
+        authorization_policy: 'one_factor'
+
+        redirect_uris:
+          - https://git.local.test:8999/user/oauth2/Authelia/callback
+
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
+
+        userinfo_signed_response_alg: 'none'
 
 notifier:
   filesystem:
@@ -1107,6 +1325,7 @@ podman run -d \
   --name authelia \
   --restart unless-stopped \
   --network backend \
+  --add-host ldap.local.test:10.89.1.231 \
   --security-opt no-new-privileges \
   --memory 512m \
   --cpus 1 \
@@ -1134,14 +1353,15 @@ mkdir -p ~/.config/containers/forgejo/certs
 ## Copy Certificates
 
 ```bash
-cp ~/.config/containers/ca/certs/server.crt \
-~/.config/containers/forgejo/certs/
+cp ~/.config/containers/ca/certs/local.test.crt \
+~/.config/containers/forgejo/certs/server.crt
 ```
 
 ```bash
-cp ~/.config/containers/ca/certs/server.key \
-~/.config/containers/forgejo/certs/
+cp ~/.config/containers/ca/private/local.test.key \
+~/.config/containers/forgejo/certs/server.key
 ```
+
 
 ---
 
@@ -1174,7 +1394,6 @@ podman run -d \
   --name forgejo \
   --restart unless-stopped \
   --network backend \
-  --cap-drop ALL \
   --security-opt no-new-privileges \
   --memory 2g \
   --cpus 2 \
@@ -1187,17 +1406,18 @@ podman run -d \
   -e USER_UID=1000 \
   -e USER_GID=1000 \
   -e FORGEJO__database__DB_TYPE=postgres \
-  -e FORGEJO__database__HOST=postgres:5432 \
+  -e FORGEJO__database__HOST=postgres.local.test:5432 \
   -e FORGEJO__database__NAME=forgejo \
   -e FORGEJO__database__USER=forgejo \
-  -e FORGEJO__database__SSL_MODE=require \
+  -e FORGEJO__database__SSL_MODE=verify-full \
+  -e FORGEJO__database__SSL_ROOT_CERT=/certs/ca.crt \
   -e FORGEJO__server__ROOT_URL=https://git.local.test:8999/ \
   -e FORGEJO__server__DOMAIN=git.local.test \
   -e FORGEJO__server__PROTOCOL=https \
   -e FORGEJO__server__HTTP_PORT=3000 \
   -e FORGEJO__server__CERT_FILE=/certs/server.crt \
   -e FORGEJO__server__KEY_FILE=/certs/server.key \
-  codeberg.org/forgejo/forgejo:11
+  codeberg.org/forgejo/forgejo:15
 ```
 
 ---
