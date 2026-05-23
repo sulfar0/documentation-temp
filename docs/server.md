@@ -631,6 +631,12 @@ chmod 644 ~/.config/containers/valkey/certs/ca.crt
 
 ## Create Secret
 
+### run this command several times
+
+```
+openssl rand -hex 64
+```
+
 ```bash
 nvim ~/.config/containers/secrets/valkey.env
 ```
