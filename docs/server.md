@@ -1,24 +1,3 @@
-# SESSION 1 — Hardened Homelab Stack (FINAL FIXED)
-
-Stack:
-
-* rootless Podman
-* OpenSSL private CA
-* Traefik
-* PostgreSQL TLS
-* separated certificate mounts
-* hardened networking
-* restart-safe services
-
-Target:
-
-* secure
-* stable
-* SSL everywhere
-* production-like homelab
-
----
-
 # 1. Install Packages
 
 Arch Linux:
