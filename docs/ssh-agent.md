@@ -15,3 +15,6 @@ Host *
     IdentityAgent /run/user/1000/ssh-agent.socket
 ```
 > angka 1000 disesuaikan dengan uid user
+```
+id -u
+```
